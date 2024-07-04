@@ -1,0 +1,36 @@
+
+# Run Nomad agent
+nomad agent --dev
+# Run Consul agent
+consul agent --dev
+# Run Vault
+vault server -dev -dev-root-token-id=root
+
+export VAULT_ADDR='http://127.0.0.1:8200'
+vault login root
+# vault secrets enable -path=dbsecret kv
+vault kv put secret/database POSTGRES_HOST="localhost" POSTGRES_USER="root" POSTGRES_PASSWORD="root" POSTGRES_DB="instagram_post"
+
+# restart nomad
+nomad agent --dev -config=nomad/nomad.hcl
+
+
+
+# Build docker image
+docker build -t instagram-post:latest .
+# To verify wether docker image is executable
+docker run -p 3000:3000 my-node-app
+# To Export docker image to .tar
+docker save -o instagram-post.tar instagram-post:latest
+
+# scp instagram-post.tar user@nomad-node:/path/to/dir/
+# docker load -i /path/to/dir/instagram-post.tar
+
+# Run Nomad job from file
+nomad job run <job-file-name>
+# Check Nomad job stats
+nomad job status <job-name>
+
+# To Run Postgress over Docker
+docker-compose --file postgress.docker.compose.yml up -d
+
