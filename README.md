@@ -1,12 +1,12 @@
 # hashicorp-vault
 
-A next level tutorial of Hashicorp Vault
+A next level tutorial of Hashicorp Vault 🚀
 
 This tutorial demonstrates the integration of Nomad with Vault for
 fetching the secrets in this case database credentials and successfully
-runs the node js app.
+use it in the custom node js app.
 
-# Pre-requistes
+##  Pre-requistes
 1. Nomad version 1.8.1
 2. Vault 1.18.0
 3. Consul 1.19.0
