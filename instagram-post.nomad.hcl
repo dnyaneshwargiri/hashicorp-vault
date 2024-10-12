@@ -3,7 +3,7 @@ job "instagram-post" {
   group "instagram-post-group" {
     count = 1
     vault {
-        address = "http://localhost:8200"
+        address = "http://127.0.0.1:8200/"
         policies = ["read"]
         token = "root"
     }
@@ -15,27 +15,27 @@ job "instagram-post" {
           archive = false
         }
       }
-     
       template {
         data = <<EOF
         {{- with secret "secret/data/database" -}}
-        export POSTGRES_HOST="{{ .Data.POSTGRES_HOST }}"
-        export POSTGRES_USER="{{ .Data.POSTGRES_USER }}"
-        export POSTGRES_PASSWORD="{{ .Data.POSTGRES_PASSWORD }}"
-        export POSTGRES_DB="{{ .Data.POSTGRES_DB }}"
+        export POSTGRES_HOST="{{ .Data.data.POSTGRES_HOST }}"
+        export POSTGRES_USER="{{ .Data.data.POSTGRES_USER }}"
+        export POSTGRES_PASSWORD="{{ .Data.data.POSTGRES_PASSWORD }}"
+        export POSTGRES_DB="{{ .Data.data.POSTGRES_DB }}"
+        export POSTGRES_PORT="{{ .Data.data.POSTGRES_PORT }}"
         {{- end }}
         EOF
-        destination = "secrets/config.json"
-        change_mode = "restart"
+        destination = "/local/secrets/env.sh" 
+        env         = true
       }
       config {
         load = "instagram-post.tar"
         image = "instagram-post"
         ports = ["http"]
-        // entrypoint = ["/bin/sh", "-c"]
-        // args = [
-        //   ". secrets/env.sh && node app.js"
-        // ]
+        entrypoint = ["/bin/sh", "-c"]
+        args = [
+          ". /local/secrets/env.sh && node index.js"
+        ]
       }
       resources {
         cpu    = 500

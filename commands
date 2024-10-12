@@ -32,4 +32,12 @@ nomad job run <job-file-name>
 # Check Nomad job stats
 nomad job status <job-name>
 
+# Nomad Config File
+http://localhost:4646/v1/agent/self
+
+# Update the policy in Vault as below 
+# Allow a token to manage its own secrets
+path "secret/data/database" {
+  capabilities = ["read"]
+}
 

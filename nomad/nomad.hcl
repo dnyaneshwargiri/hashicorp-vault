@@ -1,7 +1,6 @@
 vault {
   enabled = true
-  address = "$VAULT_ADDR"
+  address = "http://127.0.0.1:8200/"
   task_token_ttl = "1h"
-  create_from_role = "nomad-cluster"
-  token = "$VAULT_TOKEN"
+  token = "root"
 }

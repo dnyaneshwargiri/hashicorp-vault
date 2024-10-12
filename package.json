@@ -16,7 +16,10 @@
     "nomad:start": "nomad agent --dev -config=nomad/nomad.hcl",
     "consul:start": "consul agent --dev",
     "vault:start": "vault server -dev -dev-root-token-id=root",
-    "nomad:job:run": "nomad job run instagram-post.nomad.hcl"
+    "vault:login": "export VAULT_ADDR='http://127.0.0.1:8200';vault login root",
+    "vault:credential:add": "vault kv put secret/database POSTGRES_HOST='host.docker.internal' POSTGRES_PORT='5432'  POSTGRES_USER='root' POSTGRES_PASSWORD='root' POSTGRES_DB='instagram_post'",
+    "nomad:job:run": "nomad job run instagram-post.nomad.hcl",
+    "launch": "yarn build; yarn bundle; yarn docker:build; yarn docker:export; yarn docker:deploy"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
