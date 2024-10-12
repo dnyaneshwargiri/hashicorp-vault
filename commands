@@ -1,4 +1,7 @@
 
+# To Run Postgress over Docker
+docker-compose --file postgress.docker.compose.yml up -d
+
 # Run Nomad agent
 nomad agent --dev
 # Run Consul agent
@@ -13,8 +16,6 @@ vault kv put secret/database POSTGRES_HOST="localhost" POSTGRES_USER="root" POST
 
 # restart nomad
 nomad agent --dev -config=nomad/nomad.hcl
-
-
 
 # Build docker image
 docker build -t instagram-post:latest .
@@ -31,6 +32,4 @@ nomad job run <job-file-name>
 # Check Nomad job stats
 nomad job status <job-name>
 
-# To Run Postgress over Docker
-docker-compose --file postgress.docker.compose.yml up -d
 

@@ -10,7 +10,13 @@
     "start": "node app.js",
     "postgress:start": "docker-compose --file postgress.docker.compose.yml up -d",
     "docker:build": " chmod +x docker.build.sh && ./docker.build.sh",
-    "docker:run": "docker run -p 3000:3000  --network host instagram-post "
+    "docker:run": "docker run -p 3000:3000  --network host instagram-post",
+    "docker:export": "docker save -o instagram-post.tar instagram-post:latest",
+    "docker:deploy": "npx http-server -p 8080 ./",
+    "nomad:start": "nomad agent --dev -config=nomad/nomad.hcl",
+    "consul:start": "consul agent --dev",
+    "vault:start": "vault server -dev -dev-root-token-id=root",
+    "nomad:job:run": "nomad job run instagram-post.nomad.hcl"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
